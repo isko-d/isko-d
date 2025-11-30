@@ -2,8 +2,8 @@ package com.isko_d.isko_d.controller;
 
 import com.isko_d.isko_d.model.Log;
 import com.isko_d.isko_d.service.LogService;
-import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import jakarta.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(path="/logs")
 public class LogController {
     private final LogService logService;
