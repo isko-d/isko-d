@@ -49,4 +49,9 @@ public class LogController {
     public ResponseEntity<Log> updateLog(@PathVariable Integer id, @RequestBody @Valid Log log) {
         return ResponseEntity.ok(logService.update(id, log));
     }
+
+    @DeleteMapping(path="/{id}")
+    public ResponseEntity<Log> delete(@PathVariable Integer id) {
+        return ResponseEntity.ok(logService.delete(id));
+    }
 }
