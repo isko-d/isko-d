@@ -2,6 +2,7 @@ package com.isko_d.isko_d.controller;
 
 import com.isko_d.isko_d.model.Log;
 import com.isko_d.isko_d.service.LogService;
+import com.isko_d.isko_d.dto.LogDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,8 +47,8 @@ public class LogController {
     }
 
     @PatchMapping(path="/{id}")
-    public ResponseEntity<Log> updateLog(@PathVariable Integer id, @RequestBody @Valid Log log) {
-        return ResponseEntity.ok(logService.update(id, log));
+    public ResponseEntity<Log> updateLog(@PathVariable Integer id, @RequestBody LogDto dto) {
+        return ResponseEntity.ok(logService.update(id, dto));
     }
 
     @DeleteMapping(path="/{id}")

@@ -1,6 +1,7 @@
 package com.isko_d.isko_d.service;
 
 import com.isko_d.isko_d.model.Log;
+import com.isko_d.isko_d.dto.LogDto;
 import com.isko_d.isko_d.repository.LogRepository;
 import com.isko_d.isko_d.exception.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,13 @@ public class LogService {
         return logRepository.save(log);
     }
 
-    public Log update(Integer id, Log log) {
+    public Log update(Integer id, LogDto dto) {
         Log existingLog = logRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Log.class, id));
 
-        if (log.getActionType() != null && !log.getActionType().isBlank()) existingLog.setActionType(log.getActionType());
-        if (log.getLocation() != null && !log.getLocation().isBlank()) existingLog.setLocation(log.getLocation());
-        if (log.getDeviceId() != null && !log.getDeviceId().isBlank()) existingLog.setDeviceId(log.getDeviceId());
+        if (dto.getActionType() != null && !dto.getActionType().isBlank()) existingLog.setActionType(dto.getActionType());
+        if (dto.getLocation() != null && !dto.getLocation().isBlank()) existingLog.setLocation(dto.getLocation());
+        if (dto.getDeviceId() != null && !dto.getDeviceId().isBlank()) existingLog.setDeviceId(dto.getDeviceId());
 
         return logRepository.save(existingLog);
     }
