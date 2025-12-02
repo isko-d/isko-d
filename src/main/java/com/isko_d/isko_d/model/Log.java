@@ -37,13 +37,15 @@ public class Log {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public Integer getId() { return id; }
+    public Long getId() { return id; }
     // TODO: Add user_id getter once established
     public String getActionType() { return actionType; }
     public String getLocation() { return location; }
     public String getDeviceId() { return deviceId; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 
-    public void setId(Integer id) { this.id = id; }
+    public void setId(Long id) { this.id = id; }
     // TODO: Add user_id setter once established
     public void setActionType(String actionType) { this.actionType = actionType; }
     public void setLocation(String location) { this.location = location; }
