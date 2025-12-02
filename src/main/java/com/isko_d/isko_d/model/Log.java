@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Log {
     @Id 
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     // TODO: Add foreign key to user when available
 

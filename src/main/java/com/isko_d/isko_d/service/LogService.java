@@ -19,7 +19,7 @@ public class LogService {
         return logRepository.findAll();
     }
 
-    public Log findById(Integer id) {
+    public Log findById(Long id) {
         return logRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(Log.class, id));
     }
@@ -28,7 +28,7 @@ public class LogService {
         return logRepository.save(log);
     }
 
-    public Log update(Integer id, LogDto dto) {
+    public Log update(Long id, LogDto dto) {
         Log existingLog = logRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Log.class, id));
 
@@ -39,7 +39,7 @@ public class LogService {
         return logRepository.save(existingLog);
     }
 
-    public Log delete(Integer id) {
+    public Log delete(Long id) {
         Log log = logRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(Log.class, id));
 
