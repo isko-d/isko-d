@@ -20,7 +20,6 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
     private String name;
 
     @CreatedDate
