@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 public class UserResponseDTO {
     private Long id;
     private String firstName;
+    private String middleName;
     private String lastName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -13,6 +14,7 @@ public class UserResponseDTO {
     public UserResponseDTO(User user) {
         this.id = user.getId();
         this.firstName = user.getFirstName();
+        this.middleName = user.getMiddleName();
         this.lastName = user.getLastName();
         this.createdAt = user.getCreatedAt();
         this.updatedAt = user.getUpdatedAt();
@@ -20,6 +22,7 @@ public class UserResponseDTO {
 
     public Long getId() { return id; }
     public String getFirstName() { return firstName; }
+    public String getMiddleName() { return middleName; }
     public String getLastName() { return lastName; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
