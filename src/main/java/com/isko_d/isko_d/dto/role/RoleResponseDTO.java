@@ -1,7 +1,10 @@
 package com.isko_d.isko_d.dto.role;
 
+import com.isko_d.isko_d.dto.user.UserResponseDTO;
 import com.isko_d.isko_d.model.Role;
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class RoleResponseDTO {
     private Long id;

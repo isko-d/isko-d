@@ -5,13 +5,20 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name="users")
@@ -35,6 +42,15 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @ManyToMany
+    @JoinTable(
+        name="user_roles",
+        joinColumns=@JoinColumn(name="user_id"),
+        inverseJoinColumns=@JoinColumn(name="role_id")
+    )
+    @JsonManagedReference
+    Set<Role> roles = new HashSet<Role>();
 
     @CreatedDate
     @Column(updatable = false)
@@ -65,6 +81,7 @@ public class User {
     public String getLastName() { return lastName; }
     public String getEmail() { return email; }
     public String getPassword() { return password; }
+    public Set<Role> getRoles() { return roles; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 
@@ -74,4 +91,5 @@ public class User {
     public void setLastName(String lastName) { this.lastName = lastName; }
     public void setEmail(String email) { this.email = email; }
     public void setPassword(String password) { this.password = password; }
+    public void setRoles(Set<Role> roles) { this.roles = roles; }
 }

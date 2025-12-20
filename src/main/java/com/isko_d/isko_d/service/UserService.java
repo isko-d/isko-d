@@ -4,6 +4,7 @@ import com.isko_d.isko_d.model.User;
 import com.isko_d.isko_d.dto.user.UserRequestDTO;
 import com.isko_d.isko_d.dto.user.UserResponseDTO;
 import com.isko_d.isko_d.repository.UserRepository;
+import com.isko_d.isko_d.repository.RoleRepository;
 import com.isko_d.isko_d.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public List<UserResponseDTO> findAll() {
@@ -29,13 +32,24 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException(User.class, id));
     }
 
+    public UserResponseDTO findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map((user) -> new UserResponseDTO(user))
+                .orElseThrow(() -> new NotFoundException(User.class, email, "email"));
+    }
+
     public UserResponseDTO save(UserRequestDTO request) {
-        User saved = userRepository.save(new User(
+        User saved = new User(
                 request.getFirstName(),
+                request.getMiddleName(),
                 request.getLastName(),
                 request.getEmail(),
                 request.getPassword()
-        ));
+        );
+
+        request.getRoles().forEach(roleId -> {
+            roleRepository.findById(roleId).ifPresent(role -> saved.getRoles().add(role));
+        });
 
         return new UserResponseDTO(saved);
     }
@@ -45,9 +59,14 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException(User.class, id));
 
         if (request.getFirstName() != null && !request.getFirstName().isBlank()) existing.setFirstName(request.getFirstName());
+        if (request.getMiddleName() != null && !request.getMiddleName().isBlank()) existing.setMiddleName(request.getMiddleName());
         if (request.getLastName() != null && !request.getLastName().isBlank()) existing.setLastName(request.getLastName());
         if (request.getEmail() != null && !request.getEmail().isBlank()) existing.setEmail(request.getEmail());
         if (request.getPassword() != null && !request.getPassword().isBlank()) existing.setPassword(request.getPassword());
+        
+        request.getRoles().forEach(roleId -> {
+            roleRepository.findById(roleId).ifPresent(role -> existing.getRoles().add(role));
+        });
 
         User saved = userRepository.save(existing);
 
@@ -57,6 +76,8 @@ public class UserService {
     public UserResponseDTO delete(Long id) {
         User deleted = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(User.class, id));
+
+        deleted.getRoles().forEach(role -> role.getUsers().remove(deleted));
 
         userRepository.deleteById(id);
 
