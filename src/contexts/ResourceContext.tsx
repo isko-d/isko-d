@@ -133,7 +133,9 @@ export const ResourceContextProvider = ({ children }: { children: ReactNode }) =
   }
 
   const deleteItem = async (id: number) => {
-    await apiFetch(`${resource}/${id}`, {});
+    await apiFetch(`${resource}/${id}`, {
+      method: "DELETE"
+    });
     await fetchList();
   }
 

@@ -60,7 +60,7 @@ const DataTable = ({ fields, data, withActions, isLoading }: Props) => {
                     >
                     {entry?.[field.identifier]}</td>
                   ))}
-                  <td className="px-4 py-2"><DataDropdown /></td>
+                  <td className="px-4 py-2"><DataDropdown item={entry} /></td>
                   </tr>
                 );
               }
