@@ -1,10 +1,10 @@
 package com.isko_d.isko_d.repository;
 
-import com.isko_d.isko_d.model.Log;
+import com.isko_d.isko_d.model.Action;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LogRepository extends JpaRepository<Log, Long> {
+public interface ActionRepository extends JpaRepository<Action, Long> {
 
 }

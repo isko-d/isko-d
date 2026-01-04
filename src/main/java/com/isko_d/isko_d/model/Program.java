@@ -4,32 +4,32 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="logs")
+@Table(name = "programs")
 @EntityListeners(AuditingEntityListener.class)
-public class Log {
-    @Id 
-    @GeneratedValue(strategy=GenerationType.AUTO)
+
+public class Program {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "device_id")
-    private Device device;
+    @Column(nullable = false)
+    private String name;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "action_id")
-    private Action action;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 
     @CreatedDate
     @Column(updatable = false)
@@ -38,23 +38,20 @@ public class Log {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public Log() {}
+    public Program() {}
 
-    public Log(
-        Device device,
-        Action action
-    ) {
-        this.device = device;
-        this.action = action;
+    public Program(String name, Department department) {
+        this.name = name;
+        this.department = department;
     }
 
     public Long getId() { return id; }
-    public Device getDevice() { return device; }
-    public Action getAction() { return action; }
+    public String getName() { return name; }
+    public Department getDepartment() { return department; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 
     public void setId(Long id) { this.id = id; }
-    public void setDevice(Device device) { this.device = device; }
-    public void setAction(Action action) { this.action = action; }
+    public void setName(String name) { this.name = name; }
+    public void setDepartment(Department department) { this.department = department; }
 }

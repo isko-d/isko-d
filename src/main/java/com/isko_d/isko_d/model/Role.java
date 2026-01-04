@@ -2,34 +2,37 @@ package com.isko_d.isko_d.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name="logs")
+@Table(name="roles")
 @EntityListeners(AuditingEntityListener.class)
-public class Log {
-    @Id 
+public class Role {
+
+    @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "device_id")
-    private Device device;
+    @Column(nullable = false)
+    private String name;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "action_id")
-    private Action action;
+    @OneToMany(mappedBy="role")
+    Set<User> users = new HashSet<User>();
 
     @CreatedDate
     @Column(updatable = false)
@@ -38,23 +41,17 @@ public class Log {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public Log() {}
+    public Role() {}
 
-    public Log(
-        Device device,
-        Action action
-    ) {
-        this.device = device;
-        this.action = action;
-    }
+    public Role(String name) { this.name = name; }
 
     public Long getId() { return id; }
-    public Device getDevice() { return device; }
-    public Action getAction() { return action; }
+    public String getName() { return name;}
+    public Set<User> getUsers() { return users; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 
     public void setId(Long id) { this.id = id; }
-    public void setDevice(Device device) { this.device = device; }
-    public void setAction(Action action) { this.action = action; }
+    public void setName(String name) { this.name = name; }
+    public void setUsers(Set<User> users) { this.users = users; }
 }
