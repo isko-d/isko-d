@@ -24,15 +24,15 @@ public class UserSeeder {
         return args -> {
             // Only seed if the table is empty to avoid duplicates
             if (userRepository.count() == 0) {
-                Role superAdminRole = roleRepository.findByName("superadmin")
-                                        .orElseThrow(() -> new NotFoundException(Role.class, "superadmin", "name"));
+                Role superAdminRole = roleRepository.findByName("SUPERADMIN")
+                                        .orElseThrow(() -> new NotFoundException(Role.class, "SUPERADMIN", "name"));
                 
                 UserRequestDTO userInfo = new UserRequestDTO();
                 userInfo.setEmail("superadmin@iskod.com");
                 userInfo.setFirstName("Super");
                 userInfo.setLastName("Admin");
                 userInfo.setPassword("qyL2jVlerK8rzu8Ey");
-                userInfo.getRoles().add(superAdminRole.getId());
+                userInfo.setRoleId(superAdminRole.getId());
 
                 userService.save(userInfo);
             } else {
