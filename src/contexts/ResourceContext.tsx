@@ -181,6 +181,7 @@ export const ResourceContextProvider = ({ children }: { children: ReactNode }) =
       setIsModalOpen(false);
 
       if (res?.plainToken) setLastCreatedToken(res.plainToken);
+      setSelectedData({});
     } catch (error) {
       console.error(error);
     }
